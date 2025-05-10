@@ -1,0 +1,165 @@
+/* Reset dasar */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff6f7; /* Warna pink muda latar belakang */
+    color: #333;
+  }
+  
+  /* Navbar sudah ada di file style.css, hanya perlu pastikan di-link */
+  
+  .search-container {
+    margin: 20px auto;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-container input[type="text"] {
+    width: 100%;
+    max-width: 700px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 16px;
+  }
+  
+  .search-container button {
+    padding: 10px 15px;
+    background-color: #003087;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+  }
+  
+  /* Main Content Layout */
+  .main-content {
+    width: 85%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+  }
+  
+  /* Headline */
+  .headline {
+    position: relative;
+    width: 100%;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .headline img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .headline-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .label {
+    background-color: #007bff;
+    color: white;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 10px;
+  }
+  
+  /* Artikel Populer */
+  .popular-articles {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .popular-articles h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #003087;
+  }
+  
+  .popular-articles ul {
+    list-style: none;
+  }
+  
+  .popular-articles li {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Thumbnail Artikel Grid */
+  .thumbnail-grid {
+    margin-top: 30px;
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Maksimal 3 per baris */
+    gap: 30px;
+  }
+  
+  
+  .thumbnail {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  
+  .thumbnail img {
+    width: 70%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .thumbnail p {
+    padding: 10px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  /* Button "Lihat Artikel Lainnya" */
+  .more-btn {
+    margin: 30px auto;
+    display: block;
+    padding: 12px 25px;
+    background-color: #003087;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .more-btn:hover {
+    background-color: #002070;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .main-content {
+      grid-template-columns: 1fr;
+    }
+  
+    .thumbnail-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  

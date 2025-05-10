@@ -1,0 +1,68 @@
+/* Navbar styling */
+.navbar {
+    background: linear-gradient(to right, #a2c4f3, #466fbf);
+    padding: 10px 30px;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logo span {
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+  }
+  
+  .nav-links li a:hover {
+    text-decoration: underline;
+  }
+  
+  .user-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .bell {
+    font-size: 20px;
+  }
+  
+  .user-name {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  
+  .user-name:hover {
+    text-decoration: underline;
+  }
+  
