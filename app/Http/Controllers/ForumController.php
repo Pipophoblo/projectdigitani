@@ -21,6 +21,7 @@ class ForumController extends Controller
     {
         $filter = $request->input('filter', 'all');
         $categoryId = $request->input('category');
+        $search = $request->input('search');
         
         $query = Thread::with(['user', 'category', 'comments', 'likes']);
         
@@ -29,6 +30,13 @@ class ForumController extends Controller
             $query->where('category_id', $categoryId);
         }
         
+        if ($search) {
+        $query->where(function($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhere('content', 'LIKE', "%{$search}%");
+            });
+        }
+
         // Apply filters
         switch ($filter) {
             case 'trending':
@@ -233,16 +241,16 @@ class ForumController extends Controller
     }
     
     /**
-     * Search for threads.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function search(Request $request)
-    {
-        return redirect()->route('forum.index', [
-            'search' => $request->search,
-            'category' => $request->category
-        ]);
-    }
+ * Search for threads.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return \Illuminate\View\View
+ */
+public function search(Request $request)
+{
+    return redirect()->route('forum.index', [
+        'search' => $request->search,
+        'category' => $request->category
+    ]);
+}
 }

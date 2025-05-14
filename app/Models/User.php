@@ -20,7 +20,7 @@ class User extends Authenticatable
         'name',
         'email', 
         'password',
-        'role', // E.g., 'Petani', 'Mahasiswa', etc.
+        'role', // E.g., 'Admin', 'Petani', 'Mahasiswa', etc.
     ];
 
     /**
@@ -42,6 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'Admin';
+    }
 
     /**
      * Get the threads for the user.
