@@ -8,44 +8,107 @@
     <!-- CSS -->
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #fff6f7;
             color: #333;
         }
         
+        /* Navbar styling */
         .navbar {
-            background-color: #003087;
+            background: linear-gradient(to right, #a2c4f3, #466fbf);
+            padding: 10px 30px;
             color: white;
-            padding: 15px 20px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .navbar-container {
             display: flex;
+            align-items: center;
             justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
             align-items: center;
         }
         
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
         }
         
-        .navbar-nav {
-            display: flex;
+        .logo span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .nav-links {
             list-style: none;
+            display: flex;
+            gap: 25px;
             margin: 0;
             padding: 0;
         }
         
-        .nav-item {
-            margin-left: 20px;
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
         }
         
-        .nav-link {
+        .nav-links li a:hover {
+            text-decoration: underline;
+        }
+        
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .bell {
+            font-size: 20px;
+        }
+        
+        .user-name {
             color: white;
             text-decoration: none;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        
+        .user-name:hover {
+            text-decoration: underline;
+        }
+        
+        /* Search container */
+        .search-container {
+            margin: 20px auto;
+            width: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .search-container input[type="text"] {
+            width: 100%;
+            max-width: 700px;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+        
+        .search-container button {
+            padding: 10px 15px;
+            background-color: #003087;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
         }
         
         .container {
@@ -84,30 +147,39 @@
 </head>
 <body>
     <nav class="navbar">
-        <a class="navbar-brand" href="/">IPB Digitani Forum</a>
-        <ul class="navbar-nav">
-            @guest
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">Register</a>
-                </li>
-            @else
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('forum.index') }}">Forums</a>
-                </li>
-                <li class="nav-item">
-                    <span class="nav-link">{{ Auth::user()->name }}</span>
-                </li>
-                <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer; color: white; padding: 0;">Logout</button>
-                    </form>
-                </li>
-            @endguest
-        </ul>
+        <div class="navbar-container">
+            <div class="logo">
+                <img src="{{ asset('assets/image 11.png') }}" alt="IPB Digitani Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/40x40?text=IPB';">
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">HOME</a></li>
+                <li><a href="#">KONSULTANI</a></li>
+                <li><a href="#">ARTIKEL</a></li>
+                <li><a href="{{ route('forum.index') }}">FORUM TANI</a></li>
+            </ul>
+            <div class="user-section">
+                @guest
+                    <div class="auth-links">
+                        <a href="{{ route('login') }}" class="user-name">LOGIN</a>
+                        <a href="{{ route('register') }}" class="user-name">REGISTER</a>
+                    </div>
+                @else
+                    <span class="bell">🔔</span>
+                    <div class="dropdown">
+                        <a href="#" class="user-name">
+                            {{ Auth::user()->name }}<br>
+                            <small>{{ Auth::user()->role ?? 'Member' }}</small>
+                        </a>
+                        <div class="dropdown-content">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-btn">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                @endguest
+            </div>
+        </div>
     </nav>
 
     <div class="container">
@@ -123,5 +195,50 @@
     <footer>
         <p>&copy; {{ date('Y') }} IPB Digitani Forum. All rights reserved.</p>
     </footer>
+
+    <style>
+        /* Dropdown styles for user menu */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-btn {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background: none;
+            width: 100%;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .dropdown-btn:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .auth-links {
+            display: flex;
+            gap: 15px;
+        }
+    </style>
+@yield('scripts')
 </body>
 </html>
