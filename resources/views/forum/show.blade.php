@@ -176,6 +176,44 @@
         text-decoration: none;
         font-size: 14px;
     }
+     /* Comment like button styles */
+    .comment-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    
+    .comment-like-btn {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border: none;
+        background: transparent;
+        color: #333;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    
+    .comment-like-btn:hover {
+        background-color: #f0f0f0;
+    }
+    
+    .comment-like-btn.liked {
+        color: #ff5959;
+        font-weight: bold;
+    }
+    
+    .comment-like-btn.liked:hover {
+        background-color: #ffeeee;
+    }
+    
+    .comment-like-btn.liked .heart-icon, 
+    .comment-like-btn:active .heart-icon {
+        animation: heartBeat 1s ease-in-out;
+    }
 }
 </style>
 @endsection
@@ -230,25 +268,31 @@
         @endauth
         
         <div class="comments-list">
-            @if($thread->comments->count() > 0)
-                @foreach($thread->comments as $comment)
-                <div class="comment">
-                    <div class="comment-header">
-                        <span class="comment-user">
-                            {{ $comment->user->name }}
-                            <span class="badge">{{ $comment->user->role }}</span>
-                        </span>
-                        <span class="comment-date">{{ $comment->created_at->format('d F Y H:i') }}</span>
-                    </div>
-                    <div class="comment-body">
-                        {{ $comment->content }}
-                    </div>
+        @if($thread->comments->count() > 0)
+            @foreach($thread->comments as $comment)
+            <div class="comment">
+                <div class="comment-header">
+                    <span class="comment-user">
+                        {{ $comment->user->name }}
+                        <span class="badge">{{ $comment->user->role }}</span>
+                    </span>
+                    <span class="comment-date">{{ $comment->created_at->format('d F Y H:i') }}</span>
                 </div>
-                @endforeach
-            @else
-                <p>Belum ada komentar. Jadilah yang pertama berkomentar!</p>
-            @endif
-        </div>
+                <div class="comment-body">
+                    {{ $comment->content }}
+                </div>
+                <div class="comment-actions">
+                    <button class="comment-like-btn {{ Auth::check() && $comment->isLikedByUser(Auth::id()) ? 'liked' : '' }}" 
+                            data-comment-id="{{ $comment->id }}">
+                        ❤️ <span class="comment-likes-count">{{ $comment->likes()->count() }}</span> Suka
+                    </button>
+                </div>
+            </div>
+            @endforeach
+        @else
+            <p>Belum ada komentar. Jadilah yang pertama berkomentar!</p>
+        @endif
+    </div>
     </div>
 </div>
 @endsection
@@ -300,6 +344,54 @@
                 });
             @else
                 alert('Silakan login terlebih dahulu untuk menyukai thread.');
+                window.location.href = '{{ route('login') }}';
+            @endauth
+        });
+
+        $('.comment-like-btn').click(function() {
+            @auth
+                let button = $(this);
+                let commentId = button.data('comment-id');
+                
+                console.log('Like button clicked for comment: ' + commentId);
+                
+                $.ajax({
+                    url: '/comment/' + commentId + '/like',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log('AJAX Success Response:', response);
+                        
+                        if (response.success) {
+                            // Update the like count
+                            button.find('.comment-likes-count').text(response.likes_count);
+                            
+                            // Toggle liked class based on action
+                            if (response.action === 'liked') {
+                                button.addClass('liked');
+                            } else {
+                                button.removeClass('liked');
+                            }
+                        } else {
+                            console.error('Response indicated failure:', response);
+                            alert('Terjadi kesalahan.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        
+                        if (xhr.status === 401) {
+                            alert('Silakan login terlebih dahulu untuk menyukai komentar.');
+                            window.location.href = '{{ route('login') }}';
+                        } else {
+                            alert('Terjadi kesalahan. Silakan coba lagi.');
+                        }
+                    }
+                });
+            @else
+                alert('Silakan login terlebih dahulu untuk menyukai komentar.');
                 window.location.href = '{{ route('login') }}';
             @endauth
         });

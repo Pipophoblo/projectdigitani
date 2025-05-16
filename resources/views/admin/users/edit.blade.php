@@ -1,55 +1,68 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Edit Category')
+@section('title', 'Edit User')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h3">Edit Category: {{ $category->name }}</h1>
-        <a href="{{ route('admin.forum.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left"></i> Back to Categories
+        <h1 class="h3">Edit User: {{ $user->name }}</h1>
+        <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Users
         </a>
     </div>
 
     <div class="card shadow">
         <div class="card-body">
-            <!-- Fix the route parameter here -->
-            <form action="{{ route('admin.forum.update', $category) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.users.update', $user) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $category->name) }}" required>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $user->name) }}" required>
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description', $category->description) }}</textarea>
-                    @error('description')
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                    @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="mb-3">
-                    <label for="image" class="form-label">Category Image</label>
-                    @if($category->image)
-                        <div class="mb-2">
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="max-height: 150px;">
-                            <div class="form-text">Current image</div>
-                        </div>
-                    @endif
-                    <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-                    <div class="form-text">Upload a new image to replace the current one (optional). Max size: 2MB. Supported formats: JPEG, PNG, JPG, GIF.</div>
-                    @error('image')
+                    <label for="password" class="form-label">Password (leave blank to keep current)</label>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                    @error('password')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
+                        <option value="" disabled>Select a role</option>
+                        <option value="Admin" {{ old('role', $user->role) == 'Admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="Petani" {{ old('role', $user->role) == 'Petani' ? 'selected' : '' }}>Petani</option>
+                        <option value="Mahasiswa" {{ old('role', $user->role) == 'Mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                        <option value="Peneliti" {{ old('role', $user->role) == 'Peneliti' ? 'selected' : '' }}>Peneliti</option>
+                        <option value="Dosen" {{ old('role', $user->role) == 'Dosen' ? 'selected' : '' }}>Dosen</option>
+                        <option value="Umum" {{ old('role', $user->role) == 'Umum' ? 'selected' : '' }}>Umum</option>
+                    </select>
+                    @error('role')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Update Category</button>
+                    <button type="submit" class="btn btn-primary">Update User</button>
                 </div>
             </form>
         </div>

@@ -26,4 +26,20 @@ class Comment extends Model
     {
         return $this->belongsTo(Thread::class);
     }
+
+    /**
+     * Get the likes for the comment.
+     */
+    public function likes()
+    {
+        return $this->hasMany(CommentLike::class);
+    }
+    
+    /**
+     * Check if comment is liked by a specific user
+     */
+    public function isLikedByUser($userId)
+    {
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
 }
