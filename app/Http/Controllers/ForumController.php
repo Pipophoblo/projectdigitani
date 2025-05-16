@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Thread;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\CommentLike;
+use App\Models\UserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -138,28 +140,41 @@ class ForumController extends Controller
             ->with('success', 'Thread berhasil dibuat!');
     }
     
-    /**
-     * Display the specified thread.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function show($id)
-    {
-        $thread = Thread::with(['user', 'category', 'comments.user'])->findOrFail($id);
+/**
+ * Display the specified thread.
+ *
+ * @param  int  $id
+ * @return \Illuminate\View\View
+ */
+public function show($id)
+{
+    $thread = Thread::with(['user', 'category', 'comments.user', 'comments.likes'])->findOrFail($id);
+    
+    // Increment view count
+    $thread->increment('view_count');
+    
+    // If user is authenticated, load which comments they've liked
+    $commentLikes = [];
+    if (Auth::check()) {
+        $userId = Auth::id();
+        $commentIds = $thread->comments->pluck('id')->toArray();
         
-        // Increment view count
-        $thread->increment('view_count');
-        
-        return view('forum.show', [
-            'thread' => $thread,
-            'isLiked' => Auth::check() ? $thread->isLikedByUser(Auth::id()) : false,
-            'user' => Auth::check() ? [
-                'name' => Auth::user()->name,
-                'role' => Auth::user()->role
-            ] : null
-        ]);
+        $commentLikes = CommentLike::where('user_id', $userId)
+            ->whereIn('comment_id', $commentIds)
+            ->pluck('comment_id')
+            ->toArray();
     }
+    
+    return view('forum.show', [
+        'thread' => $thread,
+        'isLiked' => Auth::check() ? $thread->isLikedByUser(Auth::id()) : false,
+        'commentLikes' => $commentLikes,
+        'user' => Auth::check() ? [
+            'name' => Auth::user()->name,
+            'role' => Auth::user()->role
+        ] : null
+    ]);
+}
     
     /**
      * Toggle like status for a thread
@@ -231,26 +246,83 @@ class ForumController extends Controller
         
         // Create comment
         Comment::create([
-            'user_id' => Auth::id(),
-            'thread_id' => $threadId,
-            'content' => $validated['content']
-        ]);
-        
-        return redirect()->route('forum.show', $threadId)
-            ->with('success', 'Komentar berhasil ditambahkan!');
-    }
-    
-    /**
- * Search for threads.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return \Illuminate\View\View
- */
-public function search(Request $request)
-{
-    return redirect()->route('forum.index', [
-        'search' => $request->search,
-        'category' => $request->category
+        'user_id' => Auth::id(),
+        'thread_id' => $threadId,
+        'content' => $validated['content']
     ]);
+
+    // Check if the commenter is "Dosen" or "Peneliti"
+    $commenter = Auth::user();
+    if (in_array($commenter->role, ['Dosen', 'Peneliti'])) {
+        // Get thread owner
+        $threadOwner = $thread->user;
+        
+        // Send notification to thread owner
+        UserNotification::create([
+            'user_id' => $threadOwner->id,
+            'type' => 'comment',
+            'sender_id' => $commenter->id,
+            'message' => "{$commenter->name} ({$commenter->role}) telah menjawab diskusi anda: {$thread->title}",
+            'link' => route('forum.show', $threadId),
+        ]);
+    }
+
+    return redirect()->route('forum.show', $threadId)
+        ->with('success', 'Komentar berhasil ditambahkan!');
 }
+    
+        /**
+     * Search for threads.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        return redirect()->route('forum.index', [
+            'search' => $request->search,
+            'category' => $request->category
+        ]);
+    }
+
+     public function toggleCommentLike(Request $request, $id)
+    {
+        // Check if user is logged in
+        if (!Auth::check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not authenticated'
+            ], 401);
+        }
+        
+        $comment = Comment::findOrFail($id);
+        $userId = Auth::id();
+
+        // Check if user already liked this comment
+        $existingLike = CommentLike::where('user_id', $userId)
+                          ->where('comment_id', $id)
+                          ->first();
+
+        if ($existingLike) {
+            // User already liked the comment, so unlike it
+            $existingLike->delete();
+            $action = 'unliked';
+        } else {
+            // User hasn't liked the comment yet, so like it
+            CommentLike::create([
+                'user_id' => $userId,
+                'comment_id' => $id
+            ]);
+            $action = 'liked';
+        }
+        
+        // Get updated like count
+        $likesCount = $comment->likes()->count();
+
+        return response()->json([
+            'success' => true,
+            'action' => $action,
+            'likes_count' => $likesCount
+        ]);
+    }
 }

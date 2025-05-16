@@ -73,8 +73,6 @@
                                 ❤️ <span class="likes-count">{{ $thread['likes'] }}</span> Suka
                             </button>
                         @endauth
-                        <span>🔗 Bagikan</span>
-                        <span>⚠️ Laporkan</span>
                         <span class="timestamp">Dibuat pada {{ $thread['created_at'] }}</span>
                     </div>
                 </div>

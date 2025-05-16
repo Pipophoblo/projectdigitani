@@ -1,37 +1,21 @@
 /* Reset dasar */
 * {
+    line-height: 1.6;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
   }
   
-  .user-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .user-name {
-    color: white;
-    text-align: right;
-    font-size: 14px;
-    text-decoration: none;
-  }
-  
-  .user-name small {
-    display: block;
-    font-size: 12px;
-  }
-  
   /* Hero Section */
   .hero {
     position: relative;
-    background: url('ASSETS/image\ 15.png') no-repeat center center/cover;
-    height: 300px;
+    background: url('/assets/image 15.png') no-repeat center center/cover;
+    height: 400px;
     display: flex;
     align-items: center;
     padding: 0 40px;
+    border-radius: 10px;
     color: white;
   }
   
@@ -41,7 +25,39 @@
     border-radius: 10px;
     width: 100%;
   }
-  
+
+  .tab {
+    text-decoration: none;
+    color: #333; /* atau warna sesuai desainmu */
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.tab:hover {
+    background: #f0f0f0;
+}
+
+.tab.active {
+    background: #4f46e5; /* misalnya ungu */
+    color: white;
+}
+
+  .kategori-item, .buat-thread, .tabs {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .comment-content a {
+    color: inherit; /* supaya ngikutin warna teks di sekitarnya */
+    text-decoration: none; /* hilangkan underline */
+}
+
+.comment-content a:hover {
+    text-decoration: underline; /* boleh diberi efek hover jika mau */
+}
+
   .hero h1 {
     font-size: 32px;
     margin-bottom: 10px;
@@ -72,6 +88,11 @@
     color: white;
     border-radius: 0 5px 5px 0;
     cursor: pointer;
+    transition: background 0.7s ease;
+  }
+
+  .search-box button:hover {
+    background-color: white;
   }
   
   .buat-thread {
@@ -82,6 +103,12 @@
     font-weight: bold;
     border-radius: 6px;
     cursor: pointer;
+    transition: background 0.9s ease;
+  }
+
+  .buat-thread:hover {
+    background: #f0f0f0;
+    color: #2b4eff;
   }
   
   /* Kategori Section */
@@ -115,11 +142,11 @@
     color: #555;
     font-size: 13px;
     padding: 0;
-    transition: all 0.2s ease;
+    transition: all 0.1s ease;
   }
   
   .like-btn {
-    transition: all 0.3s ease;
+    transition: all 0.s ease;
     cursor: pointer;
     display: inline-flex;
     align-items: center;

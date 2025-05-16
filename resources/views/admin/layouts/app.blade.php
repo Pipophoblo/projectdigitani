@@ -82,6 +82,9 @@
                     <a href="{{ route('admin.threads.index') }}" class="sidebar-link {{ request()->routeIs('admin.threads.*') ? 'active' : '' }}">
                         <i class="fas fa-comments me-2"></i> Threads
                     </a>
+                    <a href="{{ route('admin.notifications.index') }}" class="sidebar-link {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}">
+                        <i class="fas fa-bell me-2"></i> Notifications
+                    </a>
                 </div>
             </div>
             
