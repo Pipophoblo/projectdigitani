@@ -6,6 +6,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Article;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -83,4 +85,35 @@ class User extends Authenticatable
         return $this->hasMany(UserNotification::class);
     }
     
+/**
+ * Get the articles for the user.
+ */
+public function articles()
+{
+    return $this->hasMany(Article::class);
+}
+
+/**
+ * Check if user is dosen
+ */
+public function isDosen()
+{
+    return $this->role === 'Dosen';
+}
+
+/**
+ * Check if user is peneliti
+ */
+public function isPeneliti()
+{
+    return $this->role === 'Peneliti';
+}
+
+ /**
+     * Get the password reset requests for the user.
+     */
+    public function passwordResetRequests()
+    {
+        return $this->hasMany(PasswordResetRequest::class);
+    }
 }

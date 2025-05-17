@@ -256,8 +256,7 @@
             <ul class="nav-links">
                 <li><a href="/">HOME</a></li>
                 <li><a href="#">KONSULTANI</a></li>
-                <li><a href="#">ARTIKEL</a></li>
-                <li><a href="{{ route('forum.index') }}">FORUM TANI</a></li>
+                <li><a href="{{ route('articles.index') }}">ARTIKEL</a></li>                <li><a href="{{ route('forum.index') }}">FORUM TANI</a></li>
             </ul>
             <div class="user-section">
                 @guest
