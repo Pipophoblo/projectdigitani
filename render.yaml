@@ -1,0 +1,64 @@
+services:
+  - type: web
+    name: projectdigitani
+    env: docker
+    plan: free
+    buildCommand: echo "Docker build is handled by Render"
+    startCommand: echo "Docker start is handled by Render"
+    envVars:
+      - key: APP_NAME
+        value: ProjectDigitani
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        fromService:
+          name: projectdigitani
+          type: web
+          property: host
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: debug
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromService:
+          name: projectdigitani-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        value: 3306  # Render MySQL uses standard port 3306
+      - key: DB_DATABASE
+        fromService:
+          name: projectdigitani-db
+          type: pserv
+          property: database
+      - key: DB_USERNAME
+        fromService:
+          name: projectdigitani-db
+          type: pserv
+          property: user
+      - key: DB_PASSWORD
+        fromService:
+          name: projectdigitani-db
+          type: pserv
+          property: password
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: FILESYSTEM_DISK
+        value: local
+
+databases:
+  - name: projectdigitani-db
+    plan: free
+    type: mysql
+    databaseName: digitani  # Using your database name here
+    ipAllowList: [] # Allow all IPs
