@@ -152,11 +152,13 @@
           <label>
             <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Ingat akun saya
           </label>
-          <a href="#">Lupa Kata Sandi?</a>
+          <a class="btn btn-link" href="{{ route('password.request') }}">
+                    {{ __('Forgot Your Password?') }}
+                </a>
         </div>
 
         <button type="submit">Login</button>
-
+        
         <p class="register">Belum punya akun ? <a href="{{ route('register') }}">Daftar Akun</a></p>
       </form>
     </div>

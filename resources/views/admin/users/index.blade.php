@@ -18,9 +18,10 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Created At</th>
+                            <th>Last Updated</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -29,11 +30,16 @@
                             <tr>
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
+                                <td>{{ $user->username ?? 'Not set' }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->role }}</td>
-                                <td>{{ $user->created_at->format('Y-m-d H:i') }}</td>
+                                <td>{{ $user->updated_at->format('Y-m-d H:i') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-info">
+                                    <a href="{{ route('admin.users.show', $user) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    
+                                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-primary">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     

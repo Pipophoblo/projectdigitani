@@ -129,4 +129,45 @@
             </div>
         </div>
     </div>
+    <div class="row">
+    <!-- Recent Articles Section -->
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Articles</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Author</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($recentArticles as $article)
+                                <tr>
+                                    <td>
+                                        <a href="{{ route('admin.articles.show', $article->id) }}">
+                                            {{ $article->title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ ucfirst($article->status) }}</td>
+                                    <td>{{ $article->user->name }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    <a href="{{ route('admin.articles.index') }}" class="btn btn-primary btn-sm">
+                        View All Articles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

@@ -76,6 +76,10 @@
                     <a href="{{ route('admin.users.index') }}" class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                         <i class="fas fa-users me-2"></i> Users
                     </a>
+                    <!-- Add Articles Management Link Here -->
+                    <a href="{{ route('admin.articles.index') }}" class="sidebar-link {{ request()->routeIs('admin.articles.*') ? 'active' : '' }}">
+                        <i class="fas fa-newspaper me-2"></i> Articles
+                    </a>
                     <a href="{{ route('admin.forum.index') }}" class="sidebar-link {{ request()->routeIs('admin.forum.*') ? 'active' : '' }}">
                         <i class="fas fa-folder me-2"></i> Categories
                     </a>
