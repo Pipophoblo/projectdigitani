@@ -24,14 +24,14 @@ services:
       - key: LOG_LEVEL
         value: debug
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
         fromService:
           name: projectdigitani-db
           type: pserv
           property: host
       - key: DB_PORT
-        value: 3306  # Render MySQL uses standard port 3306
+        value: 5432
       - key: DB_DATABASE
         fromService:
           name: projectdigitani-db
@@ -59,6 +59,6 @@ services:
 databases:
   - name: projectdigitani-db
     plan: free
-    type: mysql
-    databaseName: digitani  # Using your database name here
+    type: postgres
+    databaseName: digitani
     ipAllowList: [] # Allow all IPs
