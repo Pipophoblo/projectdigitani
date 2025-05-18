@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Article;
+use App\Models\Thread;
 
 class HomeController extends Controller
 {
@@ -13,49 +15,67 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // You can fetch popular articles from database here
-        $popularArticles = [
-            'Judul Artikel Populer 1',
-            'Judul Artikel Populer 2',
-            'Judul Artikel Populer 3',
-            'Judul Artikel Populer 4',
-        ];
-
-        // Sample article data - in a real app, this would come from database
-        $articles = [
-            [
-                'image' => 'assets/lettuce-leaves-breakfast-lunch-salad-260nw-2518782599.webp',
-                'title' => 'Judul Artikel 1'
-            ],
-            [
-                'image' => 'assets/kebun tomat.webp',
-                'title' => 'Judul Artikel 2'
-            ],
-            [
-                'image' => 'assets/premium_photo-1679428402040-e3c93439ec13.jpg',
-                'title' => 'Judul Artikel 3'
-            ],
-            [
-                'image' => 'assets/kebun cabai.png',
-                'title' => 'Judul Artikel 4'
-            ],
-            [
-                'image' => 'assets/dfddb_anggur.jpg',
-                'title' => 'Judul Artikel 5'
-            ],
-            [
-                'image' => 'assets/kebunjagung.png',
-                'title' => 'Judul Artikel 6'
-            ],
-        ];
+        // Get trending articles for headline slider (limit to 5)
+        $headlineArticles = Article::trending()
+            ->take(5)
+            ->get();
+            
+        // Get trending articles for sidebar
+        $trendingArticles = Article::trending()
+            ->take(6)
+            ->get();
+            
+        // Get recent articles for thumbnail grid
+        $recentArticles = Article::recent()
+            ->take(6)
+            ->get();
+            
+        // Get trending threads
+        $trendingThreads = Thread::with(['user', 'category'])
+            ->orderBy('view_count', 'desc')
+            ->take(4)
+            ->get();
 
         return view('home', [
-            'popularArticles' => $popularArticles,
+            'headlineArticles' => $headlineArticles,
+            'trendingArticles' => $trendingArticles,
+            'recentArticles' => $recentArticles,
+            'trendingThreads' => $trendingThreads
+        ]);
+    }
+    
+    /**
+     * Search for both articles and threads
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        
+        // Search articles
+        $articles = Article::where('status', 'published')
+            ->where(function($q) use ($query) {
+                $q->where('title', 'LIKE', "%{$query}%")
+                  ->orWhere('content', 'LIKE', "%{$query}%")
+                  ->orWhere('keywords', 'LIKE', "%{$query}%");
+            })
+            ->take(10)
+            ->get();
+            
+        // Search threads
+        $threads = Thread::where(function($q) use ($query) {
+                $q->where('title', 'LIKE', "%{$query}%")
+                  ->orWhere('content', 'LIKE', "%{$query}%");
+            })
+            ->take(10)
+            ->get();
+            
+        return view('search-results', [
+            'query' => $query,
             'articles' => $articles,
-            'user' => [
-                'name' => 'HANNAN AZHARI BATUBARA',
-                'role' => 'Mahasiswa'
-            ]
+            'threads' => $threads
         ]);
     }
 }

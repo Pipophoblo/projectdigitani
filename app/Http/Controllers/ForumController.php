@@ -69,6 +69,8 @@ class ForumController extends Controller
                 'content' => $thread->content,
                 'user' => $thread->user->name,
                 'role' => $thread->user->role ?? 'Member',
+                'category_id' => $thread->category_id,
+                'category_name' => $thread->category->name ?? 'Umum', // Add this line for category name
                 'comments' => $thread->comments->count(),
                 'likes' => $thread->likes->count(),
                 'created_at' => $thread->created_at->format('d M Y, H:i'),

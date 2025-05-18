@@ -4,6 +4,87 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/forumtani.css') }}">
+<style>
+    /* Additional styles for category tags in thread cards */
+    .category-tag {
+        display: inline-block;
+        background: rgba(162, 196, 243, 0.2);
+        color: #466fbf;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+    
+    /* Adjust the avatar size for better layout */
+    .comment-item .avatar {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    
+    /* Improve the thread title spacing */
+    .comment-item .comment-content h3 {
+        margin-top: 0;
+        margin-bottom: 4px;
+    }
+    
+    /* Add some space between user info and category */
+    .user-info-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    
+    .user-info-line .left {
+        display: flex;
+        align-items: center;
+    }
+    
+    .badge {
+        margin-left: 5px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        color: #666;
+        font-size: 12px;
+    }
+    .meta-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.comment-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.meta-info {
+    font-size: 13px;
+    color: #444;
+}
+
+.timestamp-line {
+    margin-top: 6px;
+}
+
+.timestamp {
+    font-size: 12px;
+    color: #666;
+    display: block;
+    text-align: left;
+}
+
+</style>
 @endsection
 
 @section('content')
@@ -57,25 +138,43 @@
             <div class="comment-item">
                 <img src="https://via.placeholder.com/50" alt="avatar" class="avatar" />
                 <div class="comment-content">
-                    <a href="{{ route('forum.show', $thread['id']) }}">
-                        <h3>{{ $thread['title'] ?? 'Thread tanpa judul' }}</h3>
-                    </a>
-                    <strong>{{ $thread['user'] }}</strong> <span class="badge">{{ $thread['role'] }}</span>
-                    <p>{{ \Illuminate\Support\Str::limit($thread['content'], 200) }}</p>
-                    <div class="comment-meta">
-                        <span>🗨️ {{ $thread['comments'] }} Komentar</span>
-                        @auth
-                            <button class="action-btn like-btn {{ isset($thread['is_liked']) && $thread['is_liked'] ? 'liked' : '' }}" data-thread-id="{{ $thread['id'] }}">
-                                ❤️ <span class="likes-count">{{ $thread['likes'] }}</span> Suka
-                            </button>
-                        @else
-                            <button class="action-btn like-btn" onclick="redirectToLogin()">
-                                ❤️ <span class="likes-count">{{ $thread['likes'] }}</span> Suka
-                            </button>
-                        @endauth
-                        <span class="timestamp">Dibuat pada {{ $thread['created_at'] }}</span>
-                    </div>
-                </div>
+    <div class="user-info-line">
+        <div class="left">
+            <strong>{{ $thread['user'] }}</strong> <span class="badge">{{ $thread['role'] }}</span>
+        </div>
+    </div>
+
+    {{-- Kategori di bawah username --}}
+    @if(isset($thread['category_name']))
+        <span class="category-tag">{{ $thread['category_name'] }}</span>
+    @endif
+
+    {{-- Judul dan isi thread --}}
+    <a href="{{ route('forum.show', $thread['id']) }}">
+        <h3>{{ $thread['title'] ?? 'Thread tanpa judul' }}</h3>
+    </a>
+    <p>{{ \Illuminate\Support\Str::limit($thread['content'], 200) }}</p>
+
+    {{-- Komentar dan like --}}
+    <div class="comment-meta-row">
+        <span class="meta-info">🗨️ {{ $thread['comments'] }} Komentar</span>
+        @auth
+            <button class="action-btn like-btn meta-info {{ isset($thread['is_liked']) && $thread['is_liked'] ? 'liked' : '' }}" data-thread-id="{{ $thread['id'] }}">
+                ❤️ <span class="likes-count">{{ $thread['likes'] }}</span> Suka
+            </button>
+        @else
+            <button class="action-btn like-btn meta-info" onclick="redirectToLogin()">
+                ❤️ <span class="likes-count">{{ $thread['likes'] }}</span> Suka
+            </button>
+        @endauth
+    </div>
+
+    {{-- Tanggal dibuat di bawah, rata kiri --}}
+    <div class="timestamp-line">
+        <span class="timestamp">Dibuat pada {{ $thread['created_at'] }}</span>
+    </div>
+</div>
+
             </div>
             @endforeach
         @else

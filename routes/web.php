@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\ThreadController as AdminThreadController;
 
 // Home routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 // Forum routes
 Route::get('/forum', [ForumController::class, 'index'])->name('forum.index');

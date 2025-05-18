@@ -91,16 +91,15 @@
         text-decoration: none;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
         padding: 8px 15px;
         font-size: 14px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.5s ease;
     }
     
     .filter-btn.active {
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        background: linear-gradient(to right, #a2c4f3, #466fbf);
         color: white;
         border-color: transparent;
     }
@@ -124,7 +123,7 @@
     }
     
     .search-box button {
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        background: linear-gradient(to right, #a2c4f3, #466fbf);
         border: none;
         color: white;
         padding: 8px 15px;
@@ -178,12 +177,12 @@
     }
     
     .pagination .active .page-link {
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        background: linear-gradient(to right, #a2c4f3, #466fbf);
         color: white;
     }
     
     .create-btn {
-        background: linear-gradient(135deg, #6e8efb, #a777e3);
+        background: linear-gradient(to right, #a2c4f3, #466fbf);
         color: white;
         border: none;
         padding: 10px 20px;
@@ -214,7 +213,7 @@
         </div>
         
         <form action="{{ route('articles.search') }}" method="GET" class="search-box">
-            <input type="text" name="query" placeholder="Search articles...">
+            <input type="text" name="query" placeholder="Cari Artikel...">
             <button type="submit">Search</button>
         </form>
     </div>
