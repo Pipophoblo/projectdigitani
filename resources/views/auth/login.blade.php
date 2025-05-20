@@ -19,7 +19,7 @@
   }
   
   .background {
-    background: url('ASSETS/REKTORAT-IPB.jpeg') no-repeat center center/cover;
+    background: url('/assets/REKTORAT-IPB.png') no-repeat center center/cover;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -123,7 +123,7 @@
 <body>
   <div class="background">
     <div class="login-box">
-      <img src="{{ asset('ASSETS/image 11.png') }}" alt="Logo Digitani" class="logo" />
+      <img src="{{ asset('/assets/image 11.png') }}" alt="Logo Digitani" class="logo" />
 
       <form method="POST" action="{{ route('login') }}">
         @csrf
