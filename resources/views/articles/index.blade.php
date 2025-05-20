@@ -207,9 +207,9 @@
 <div class="container">
     <div class="filter-container">
         <div class="filter-buttons">
-            <a href="{{ route('articles.index', ['filter' => 'latest']) }}" class="filter-btn {{ $filter == 'latest' ? 'active' : '' }}">Latest</a>
+            <a href="{{ route('articles.index', ['filter' => 'latest']) }}" class="filter-btn {{ $filter == 'latest' ? 'active' : '' }}">Terbaru</a>
             <a href="{{ route('articles.index', ['filter' => 'trending']) }}" class="filter-btn {{ $filter == 'trending' ? 'active' : '' }}">Trending</a>
-            <a href="{{ route('articles.index', ['filter' => 'popular']) }}" class="filter-btn {{ $filter == 'popular' ? 'active' : '' }}">Popular</a>
+            <a href="{{ route('articles.index', ['filter' => 'popular']) }}" class="filter-btn {{ $filter == 'popular' ? 'active' : '' }}">Populer</a>
         </div>
         
         <form action="{{ route('articles.search') }}" method="GET" class="search-box">
@@ -220,7 +220,7 @@
     
     @auth
         @if(auth()->user()->isAdmin() || auth()->user()->isDosen() || auth()->user()->isPeneliti())
-            <a href="{{ route('articles.create') }}" class="create-btn">Create New Article</a>
+            <a href="{{ route('articles.create') }}" class="create-btn">Buat Artikel Baru</a>
         @endif
     @endauth
     
@@ -248,7 +248,7 @@
         </div>
         
         <div class="sidebar">
-            <h3>Trending Articles</h3>
+            <h3>Artikel Populer</h3>
             <ul class="trending-list">
                 @foreach($trendingArticles as $trending)
                     <li>

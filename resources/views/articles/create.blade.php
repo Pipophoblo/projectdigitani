@@ -107,13 +107,13 @@
 @section('content')
 <div class="container">
     <div class="form-container">
-        <h1 class="form-title">Create New Article</h1>
+        <h1 class="form-title">Artikel Baru</h1>
         
         <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="form-group">
-                <label for="title" class="form-label">Title</label>
+                <label for="title" class="form-label">Judul</label>
                 <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" required>
                 @error('title')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -121,7 +121,7 @@
             </div>
             
             <div class="form-group">
-                <label for="image" class="form-label">Featured Image</label>
+                <label for="image" class="form-label">Gambar Artikel</label>
                 <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
                 @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -129,7 +129,7 @@
             </div>
             
             <div class="form-group">
-                <label for="summary" class="form-label">Summary (Optional)</label>
+                <label for="summary" class="form-label">Rangkuman (Optional)</label>
                 <textarea name="summary" id="summary" class="form-control @error('summary') is-invalid @enderror" rows="3">{{ old('summary') }}</textarea>
                 @error('summary')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -137,7 +137,7 @@
             </div>
             
             <div class="form-group">
-                <label for="content" class="form-label">Content</label>
+                <label for="content" class="form-label">Isi Artikel</label>
                 <textarea name="content" id="content" class="form-control @error('content') is-invalid @enderror" required>{{ old('content') }}</textarea>
                 @error('content')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -145,7 +145,7 @@
             </div>
             
             <div class="form-group">
-                <label for="keywords" class="form-label">Keywords (Separate with commas)</label>
+                <label for="keywords" class="form-label">Keywords (pisahkan dengan koma)</label>
                 <input type="text" name="keywords" id="keywords" class="form-control @error('keywords') is-invalid @enderror" value="{{ old('keywords') }}">
                 @error('keywords')
                     <div class="invalid-feedback">{{ $message }}</div>

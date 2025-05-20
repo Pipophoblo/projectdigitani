@@ -237,13 +237,56 @@
             border: 1px solid #c3e6cb;
         }
         
-        footer {
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            border-top: 1px solid #ddd;
-        }
+        .footer {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  padding: 40px 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  border-bottom: 1px solid #444;
+  padding-bottom: 20px;
+}
+
+.footer-left,
+.footer-right {
+  width: 45%;
+  min-width: 250px;
+}
+
+.footer h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #ffffff;
+  border-left: 4px solid #4caf50;
+  padding-left: 8px;
+}
+
+.footer p,
+.footer li {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #ccc;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 13px;
+  color: #888;
+}
     </style>
     @yield('styles')
 </head>
@@ -304,9 +347,34 @@
         @yield('content')
     </div>
 
-    <footer>
-        <p>&copy; {{ date('Y') }} IPB Digitani Forum. All rights reserved.</p>
-    </footer>
+    <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <h4>Alamat</h4>
+      <p>
+        Gedung Tani dan Nelayan Center IPB University<br>
+        Jl. Pinus<br>
+        Kampus IPB Dramaga, Desa Babakan,<br>
+        Kecamatan Dramaga, Kabupaten Bogor,<br>
+        Jawa Barat 16680
+      </p>
+    </div>
+    <div class="footer-right">
+      <h4>Kontak & Media</h4>
+      <ul class="contact-list">
+        <li>📧 tanicenter@apps.ipb.ac.id</li>
+        <li>🌐 tanicenter.ipb</li>
+        <li>🐦 @tanicenteripb</li>
+        <li>📱 +62-813-8696-3399</li>
+        <li>📺 tani center ipb</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© IPB Digitani, 2025 All Rights Reserved.</p>
+  </div>
+</footer>
+
 
     <style>
         /* Dropdown styles for user menu */
