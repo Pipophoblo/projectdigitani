@@ -19,7 +19,7 @@
   }
   
   .background {
-    background: url('/assets/REKTORAT-IPB.png') no-repeat center center/cover;
+    background: url('/assets/REKTORAT-IPB.jpeg') no-repeat center center/cover;
     height: 100%;
     display: flex;
     flex-direction: column;
