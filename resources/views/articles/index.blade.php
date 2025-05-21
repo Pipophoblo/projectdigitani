@@ -228,7 +228,7 @@
         <div class="main-content">
             @forelse($articles as $article)
                 <div class="article-card">
-                    <img src="{{ $article->image ? asset('storage/' . $article->image) : asset('images/placeholder.jpg') }}" alt="{{ $article->title }}" class="article-img">
+                    <img src="{{ $article->image ? Storage::url($article->image) : asset('images/placeholder.jpg') }}" alt="{{ $article->title }}" class="article-img">
                     <div class="article-content">
                         <h3 class="article-title">
                             <a href="{{ route('articles.show', $article->slug) }}">{{ $article->title }}</a>

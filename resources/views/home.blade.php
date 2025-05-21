@@ -464,7 +464,7 @@
     @forelse($headlineArticles as $index => $article)
         <div class="headline-slide {{ $index == 0 ? 'active' : '' }}">
             <div class="headline-image">
-                <img src="{{ asset($article->image ? 'storage/' . $article->image : 'assets/default-article-image.jpg') }}" 
+            <img src="{{ $article->image ? Storage::url($article->image) : asset('assets/default-article-image.jpg') }}"
                      alt="{{ $article->title }}">
             </div>
             <div class="headline-content">
@@ -515,7 +515,7 @@
             <div class="thumbnail-grid">
                 @forelse($recentArticles as $article)
                     <div class="thumbnail">
-                        <img src="{{ asset($article->image ? 'storage/' . $article->image : 'assets/default-article-image.jpg') }}" 
+                            <img src="{{ $article->image ? Storage::url($article->image) : asset('assets/default-article-image.jpg') }}"
                              alt="{{ $article->title }}">
                         <div class="content">
                             <h3>{{ $article->title }}</h3>
@@ -578,8 +578,7 @@
             
             @forelse($trendingArticles as $article)
                 <a href="{{ route('articles.show', $article) }}" class="trending-article">
-                    <img src="{{ asset($article->image ? 'storage/' . $article->image : 'assets/default-article-image.jpg') }}" 
-                         alt="{{ $article->title }}">
+                <img src="{{ $article->image ? Storage::url($article->image) : asset('assets/default-article-image.jpg') }}"                         alt="{{ $article->title }}">
                     <p>{{ $article->title }}</p>
                 </a>
             @empty
