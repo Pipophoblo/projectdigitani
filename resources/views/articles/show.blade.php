@@ -267,7 +267,7 @@
             
             @if($article->image)
                 <div class="article-featured-image">
-                    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}">
+                <img src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}">
                 </div>
             @endif
             
@@ -303,7 +303,7 @@
                         @foreach($relatedArticles as $related)
                             <div class="related-card">
                                 <div class="related-image">
-                                    <img src="{{ $related->image ? asset('storage/' . $related->image) : asset('images/placeholder.jpg') }}" alt="{{ $related->title }}">
+                                <img src="{{ $related->image ? Storage::url($related->image) : asset('images/placeholder.jpg') }}" alt="{{ $related->title }}">
                                 </div>
                                 <div class="related-content">
                                     <h4 class="related-card-title">

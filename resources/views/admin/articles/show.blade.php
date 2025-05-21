@@ -34,7 +34,7 @@
                     
                     @if($article->image)
                         <div class="mb-4">
-                            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" style="max-width: 100%; border-radius: 8px;">
+                        <img src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}" style="max-width: 100%; border-radius: 8px;">
                         </div>
                     @endif
                     
