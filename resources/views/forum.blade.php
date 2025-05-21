@@ -109,7 +109,7 @@
     <div class="grid-kategori">
         @foreach($categories as $category)
         <a href="{{ route('forum.index', ['category' => $category->id]) }}" class="kategori-item">
-        <img src="{{ Storage::url($category->image) }}" alt="">
+        <img src="{{ asset('storage/' . $category->image) }}" alt="">
             <p>{{ $category->name }}</p>
         </a>
         @endforeach

@@ -31,7 +31,7 @@
                                 <td>{{ $category->id }}</td>
                                 <td>
                                     @if($category->image)
-                                    <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="height: 50px; width: 50px; object-fit: cover;">
+                                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="height: 50px; width: 50px; object-fit: cover;">
                                     @else
                                         <span class="text-muted">No image</span>
                                     @endif
