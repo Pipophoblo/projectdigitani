@@ -162,7 +162,7 @@
                 <label for="image" class="form-label">Featured Image</label>
                 @if($article->image)
                     <div>
-                        <img src="{{ Storage::url($article->image) }}" alt="Current Image" class="current-image">
+                        <img src="{{ asset('storage/' . $article->image) }}" alt="Current Image" class="current-image">
                         <p>Upload a new image to replace the current one</p>
                     </div>
                 @endif
