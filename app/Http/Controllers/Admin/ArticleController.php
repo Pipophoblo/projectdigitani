@@ -68,14 +68,19 @@ class ArticleController extends Controller
         
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($article->image && Storage::disk('public')->exists($article->image)) {
-                Storage::disk('public')->delete($article->image);
-            }
-            
-            $imagePath = $request->file('image')->store('articles', 'public');
-            $validatedData['image'] = $imagePath;
-        }
+    // Delete old image if exists (from digitani)
+    if ($article->image && Storage::disk('digitani')->exists($article->image)) {
+        Storage::disk('digitani')->delete($article->image);
+    }
+
+    // Store new image to Cloudflare R2
+    $imagePath = $request->file('image')->store('articles', 'digitani');
+
+    // (Optional) Make file publicly accessible
+    Storage::disk('digitani')->setVisibility($imagePath, 'public');
+
+    $validatedData['image'] = $imagePath;
+}
         
         // Set published_at if status is changed to published
         if ($validatedData['status'] === 'published' && $article->status !== 'published') {
@@ -93,9 +98,10 @@ class ArticleController extends Controller
         $this->checkAdmin();
         
         // Delete image if exists
-        if ($article->image && Storage::disk('public')->exists($article->image)) {
-            Storage::disk('public')->delete($article->image);
-        }
+        if ($article->image && Storage::disk('digitani')->exists($article->image)) {
+    Storage::disk('digitani')->delete($article->image);
+}
+
         
         $article->delete();
         
@@ -157,10 +163,16 @@ class ArticleController extends Controller
         $validatedData['slug'] = Str::slug($validatedData['title']);
         
         // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('articles', 'public');
-            $validatedData['image'] = $imagePath;
-        }
+        // Handle image upload
+if ($request->hasFile('image')) {
+    $imagePath = $request->file('image')->store('articles', 'digitani');
+
+    // (Optional) make the file publicly accessible
+    Storage::disk('digitani')->setVisibility($imagePath, 'public');
+
+    $validatedData['image'] = $imagePath;
+}
+
         
         // Set published_at if status is published
         if ($validatedData['status'] === 'published') {

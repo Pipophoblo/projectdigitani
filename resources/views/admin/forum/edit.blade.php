@@ -36,11 +36,11 @@
                 <div class="mb-3">
                     <label for="image" class="form-label">Category Image</label>
                     @if($category->image)
-                        <div class="mb-2">
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="max-height: 150px;">
-                            <div class="form-text">Current image</div>
-                        </div>
-                    @endif
+    <div class="mb-2">
+        <img src="{{ Storage::disk('digitani')->url($category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="max-height: 150px;">
+        <div class="form-text">Current image</div>
+    </div>
+@endif
                     <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
                     <div class="form-text">Upload a new image to replace the current one (optional). Max size: 2MB. Supported formats: JPEG, PNG, JPG, GIF.</div>
                     @error('image')

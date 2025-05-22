@@ -39,7 +39,7 @@ return [
             'throw' => false,
             'report' => false,
         ],
-        's3' => [
+        'digitani' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -48,8 +48,6 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
-            'report' => false,
         ],
         'r2' => [
             'driver' => 's3',
@@ -65,6 +63,9 @@ return [
             'report' => false,
         ],
     ],
+
+
+    'default' => env('FILESYSTEM_DISK', 'local'),
     /*
     |--------------------------------------------------------------------------
     | Symbolic Links
