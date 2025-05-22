@@ -161,11 +161,12 @@
             <div class="form-group">
                 <label for="image" class="form-label">Featured Image</label>
                 @if($article->image)
-                    <div>
-                        <img src="{{ asset('storage/' . $article->image) }}" alt="Current Image" class="current-image">
-                        <p>Upload a new image to replace the current one</p>
-                    </div>
-                @endif
+    <div>
+        <img src="{{ Storage::disk('digitani')->url($article->image) }}" alt="Current Image" class="current-image">
+        <p>Upload a new image to replace the current one</p>
+    </div>
+@endif
+
                 <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
                 @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>

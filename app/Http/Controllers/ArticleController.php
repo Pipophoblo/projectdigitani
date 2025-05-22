@@ -93,10 +93,15 @@ class ArticleController extends Controller
         $validatedData['slug'] = Str::slug($validatedData['title']);
         
         // Handle image upload
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('articles', 'public');
+                if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('articles', 'digitani');
+
+            // Supaya file bisa diakses publik lewat URL
+            Storage::disk('digitani')->setVisibility($imagePath, 'public');
+
             $validatedData['image'] = $imagePath;
         }
+
         
         // Set status based on user role
         if ($this->isUserAdmin()) {
@@ -179,15 +184,21 @@ class ArticleController extends Controller
         $validatedData['slug'] = Str::slug($validatedData['title']);
         
         // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($article->image && Storage::disk('public')->exists($article->image)) {
-                Storage::disk('public')->delete($article->image);
-            }
-            
-            $imagePath = $request->file('image')->store('articles', 'public');
-            $validatedData['image'] = $imagePath;
-        }
+if ($request->hasFile('image')) {
+    // Delete old image if exists
+    if ($article->image && Storage::disk('digitani')->exists($article->image)) {
+        Storage::disk('digitani')->delete($article->image);
+    }
+
+    // Store new image in Cloudflare R2 (disk: digitani)
+    $imagePath = $request->file('image')->store('articles', 'digitani');
+
+    // (Optional) Make the file public
+    Storage::disk('digitani')->setVisibility($imagePath, 'public');
+
+    $validatedData['image'] = $imagePath;
+}
+
         
         // Update status if edited
         if (!$this->isUserAdmin() && $article->status === 'published') {
@@ -211,9 +222,9 @@ class ArticleController extends Controller
         }
         
         // Delete image if exists
-        if ($article->image && Storage::disk('public')->exists($article->image)) {
-            Storage::disk('public')->delete($article->image);
-        }
+        if ($article->image && Storage::disk('digitani')->exists($article->image)) {
+        Storage::disk('digitani')->delete($article->image);
+    }
         
         $article->delete();
         

@@ -33,10 +33,11 @@
                     <h1 class="h4 mb-3">{{ $article->title }}</h1>
                     
                     @if($article->image)
-                        <div class="mb-4">
-                        <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" style="max-width: 100%; border-radius: 8px;">
-                        </div>
-                    @endif
+    <div class="mb-4">
+        <img src="{{ Storage::disk('digitani')->url($article->image) }}" alt="{{ $article->title }}" style="max-width: 100%; border-radius: 8px;">
+    </div>
+@endif
+
                     
                     @if($article->summary)
                         <div class="card bg-light mb-4">

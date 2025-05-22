@@ -108,11 +108,12 @@
     <h2>Kategori Topik Forum</h2>
     <div class="grid-kategori">
         @foreach($categories as $category)
-        <a href="{{ route('forum.index', ['category' => $category->id]) }}" class="kategori-item">
-        <img src="{{ asset('storage/' . $category->image) }}" alt="">
-            <p>{{ $category->name }}</p>
-        </a>
-        @endforeach
+    <a href="{{ route('forum.index', ['category' => $category->id]) }}" class="kategori-item">
+        <img src="{{ Storage::disk('digitani')->url($category->image) }}" alt="{{ $category->name }}">
+        <p>{{ $category->name }}</p>
+    </a>
+@endforeach
+
     </div>
 </section>
 

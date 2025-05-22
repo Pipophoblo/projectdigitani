@@ -85,7 +85,7 @@
                             <label for="image">Featured Image</label>
                             @if($article->image)
                                 <div class="mb-2">
-                                <img src="{{ asset('storage/' . $article->image) }}" alt="Current Image" style="max-height: 100px; max-width: 200px;">
+                                <img src="{{ Storage::disk('digitani')->url($article->image) }}" alt="Current Image" style="max-height: 100px; max-width: 200px;">
                                 </div>
                             @endif
                             <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image" name="image">

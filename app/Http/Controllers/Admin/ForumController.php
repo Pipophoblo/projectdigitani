@@ -30,9 +30,14 @@ class ForumController extends Controller
         
         // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('categories', 'public');
-            $validatedData['image'] = $imagePath;
-        }
+    $imagePath = $request->file('image')->store('categories', 'digitani');
+
+    // (Optional) buat supaya bisa diakses publik dari URL
+    Storage::disk('digitani')->setVisibility($imagePath, 'public');
+
+    $validatedData['image'] = $imagePath;
+}
+
         
         Category::create($validatedData);
         
@@ -55,14 +60,20 @@ class ForumController extends Controller
         
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($category->image && Storage::disk('public')->exists($category->image)) {
-                Storage::disk('public')->delete($category->image);
-            }
-            
-            $imagePath = $request->file('image')->store('categories', 'public');
-            $validatedData['image'] = $imagePath;
-        }
+    // Delete old image if exists (on digitani)
+    if ($category->image && Storage::disk('digitani')->exists($category->image)) {
+        Storage::disk('digitani')->delete($category->image);
+    }
+
+    // Upload new image to R2
+    $imagePath = $request->file('image')->store('categories', 'digitani');
+
+    // Make image publicly accessible
+    Storage::disk('digitani')->setVisibility($imagePath, 'public');
+
+    $validatedData['image'] = $imagePath;
+}
+
         
         $category->update($validatedData);
         
@@ -79,9 +90,9 @@ class ForumController extends Controller
         }
         
         // Delete image if exists
-        if ($category->image && Storage::disk('public')->exists($category->image)) {
-            Storage::disk('public')->delete($category->image);
-        }
+        if ($category->image && Storage::disk('digitani')->exists($category->image)) {
+        Storage::disk('digitani')->delete($category->image);
+    }
         
         $category->delete();
         
